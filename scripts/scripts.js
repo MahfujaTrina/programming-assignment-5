@@ -49,7 +49,7 @@ for (const seat of seatButton) {
 
         }
         else {
-            alert("You can't select more seat!!!")
+            alert("You can't select more seat!")
         }
     })
 }
