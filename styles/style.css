@@ -1,6 +1,16 @@
-.relative {
-    position: relative;
+
+.font-inter {
+    font-family: Inter;
 }
-.absolute {
-    position: absolute;
+
+.font-raleway {
+    font-family: Raleway;
+}
+
+.font-roboto {
+    font-family: Roboto;
+}
+
+.btnBgColorChanged {
+    background-color: #1DD100;
 }
