@@ -2,11 +2,13 @@ const allSeats = document.getElementById('allSeats')
 const seatButton = document.getElementsByClassName('seatButton')
 const appendedSection = document.getElementById('appended-section')
 const apply = document.getElementById('apply')
+const visiblePopup = document.getElementById('success-popup')
 
 let updateTotalPrice = 0
 let seatCount = 0
-var isSelected = false
-var isTyped = false
+let isSelected = false
+let isTyped = false
+
 for (const seat of seatButton) {
     seat.addEventListener('click', function () {
         if (seatCount < 4) {
@@ -45,12 +47,13 @@ for (const seat of seatButton) {
             setInnerTextWithIdAndValue('grand-total', grandFinal)
 
             isSelected = true
-            check()
 
             if (seatCount === 4) {
                 apply.removeAttribute('disabled')
             }
-
+            else {
+                apply.setAttribute('disabled', true)
+            }
         }
         else {
             alert("You can't select more seat!!!")
@@ -58,23 +61,28 @@ for (const seat of seatButton) {
     })
 }
 
-const hide = document.getElementById('hide-hobe')
+const hide = document.getElementById('hidethat')
 
 apply.addEventListener('click', function () {
     const new15Coupon = getInnerTextFromId('new15')
     const couple20Coupon = getInnerTextFromId('couple20')
     const couponInputValue = getInputValueFromId('input-coupon')
+
     if (couponInputValue === new15Coupon) {
         const grandTotal15 = updateTotalPrice * 0.15
         const grandFinal = updateTotalPrice - grandTotal15
         setInnerTextWithIdAndValue('grand-total', grandFinal)
         hide.classList.add('hidden')
+        setValueWithIdAndValue('input-coupon', '')
+        apply.setAttribute('disabled', true)
     }
     else if (couponInputValue === couple20Coupon) {
         const grandTotal20 = updateTotalPrice * 0.2
         const grandFinal = updateTotalPrice - grandTotal20
         setInnerTextWithIdAndValue('grand-total', grandFinal)
         hide.classList.add('hidden')
+        setValueWithIdAndValue('input-coupon', '')
+        apply.setAttribute('disabled', true)
     }
     else {
         alert("Your coupon code isn't correct")
@@ -83,12 +91,29 @@ apply.addEventListener('click', function () {
 
 function typeCheck() {
     isTyped = true
-    check()
 }
 
-const visiblePopup = document.getElementById('success-popup')
-function check() {
+function nextChanged() {
+   
     if (isSelected === true && isTyped === true) {
-        visiblePopup.classList.add("hidden")
+        visiblePopup.classList.remove('hidden')
+        seatCount = 0
+        setInnerTextWithIdAndValue('selected-seat-count', seatCount)
+        appendedSection.innerHTML = ''
+        updateTotalPrice = 0
+        grandFinal = 0
+        setInnerTextWithIdAndValue('total-price', updateTotalPrice)
+        setInnerTextWithIdAndValue('grand-total', grandFinal)
+        hide.classList.remove('hidden')
+        apply.setAttribute('disabled', true)
+        setValueWithIdAndValue('required', '')
+        isSelected = false
+        isTyped = false
+    } else {
+        alert('Please select atleast 1 seat and must type phone number.')
     }
+}
+
+function continueHide() {
+    visiblePopup.classList.add('hidden')
 }
